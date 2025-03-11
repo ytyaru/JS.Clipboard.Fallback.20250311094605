@@ -7,20 +7,6 @@ class Clipboard {
         if (navigator.clipboard) {await navigator.clipboard.writeText(value)}
         else {this.#writeFallback(value)}
     }
-    constructor(options={}) {this._options = ({...this.defaultOptions, ...options});}
-    get defaultOptions() { return {
-        onWrite: (v)=>console.log(`Copyied!!: ${v}`),
-        onRead: (v)=>console.log(`Pasted!!: ${v}`),
-    } }
-    async read() {
-        const value = await Clipboard.read();
-        this._options.onRead(value);
-        return value;
-    }
-    async write(value) {
-        await Clipboard.write(value);
-        this._options.onWrite(value);
-    }
     static async #writeFallback(value) {
         if (!value || typeof value !== 'string' || !(value instanceof String)) {return ''}
         const id = 'copy'
